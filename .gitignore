@@ -1,0 +1,6 @@
+output.log
+node_modules/
+Storage/
+.envDev
+.envProd
+.env
