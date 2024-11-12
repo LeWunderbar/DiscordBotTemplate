@@ -5,7 +5,7 @@ Steps to setup new bot:
 - Add TOKEN=12345 to both .env's
 
 (Below if MongoDB NOT in use)
-- Remove "mongoHandler" in src/launch
+- Remove "mongoHandler" in src/events/ready/03services.js
 - Remove /src/handlers/mongoHandler.js
 - Remove /src/schema Folder
 
