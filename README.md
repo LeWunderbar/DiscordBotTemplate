@@ -11,3 +11,8 @@ Steps to setup new bot:
 
 (Below if MongoDB in USE)
 - Add MONGODB=mongodb+srv://USERNAME:PASS@URL/?retryWrites=true&w=majority
+- Change URL of mongoDB in in /src/handlers/mongoHandler.js
+
+ENVS:
+TOKEN=Discord Bot Token
+MONGODB_PASSWORD=MongoDB Password
