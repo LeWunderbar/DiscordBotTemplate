@@ -9,7 +9,7 @@ module.exports = async (client) => {
 	try {
 		const localSlashCommands = getLocalInteractions("slashCommands");
 		const localUserContextMenus = getLocalInteractions("userContextMenus");
-		const applicationCommands = await getApplicationCommands(client, config.TEST_SERVER);
+		const applicationCommands = await getApplicationCommands(client);
 
 		// Register Slash Commands
 		for (const localCommand of localSlashCommands) {

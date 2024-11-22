@@ -1,4 +1,5 @@
 const { config } = require("../../configurator");
+const { infoMessage, unknowenError } = require("./../../templates/embeds");
 const getLocalInteractions = require('../../utils/getLocalInteractions');
 const log = require("../../utils/log");
 
@@ -25,14 +26,14 @@ async function slashInteraction(interaction, client) {
 
 		if (commandObject.devOnly && !config.DEVS.includes(interaction.member.id)) {
 			return interaction.reply({
-				content: 'Only developers are allowed to run this command.',
+				embeds: [infoMessage("Only developers are allowed to run this command.")],
 				ephemeral: true,
 			});
 		}
 
 		if (commandObject.testOnly && interaction.guild.id !== config.TEST_SERVER) {
 			return interaction.reply({
-				content: 'This command cannot be run here.',
+				embeds: [infoMessage("This command is testing only!")],
 				ephemeral: true,
 			});
 		}
@@ -41,7 +42,7 @@ async function slashInteraction(interaction, client) {
 			for (const permission of commandObject.permissionsRequired) {
 				if (!interaction.member.permissions.has(permission)) {
 					return interaction.reply({
-						content: 'Not enough permissions.',
+						embeds: [infoMessage("You dont have permissions.")],
 						ephemeral: true,
 					});
 				}
@@ -53,7 +54,7 @@ async function slashInteraction(interaction, client) {
 			for (const permission of commandObject.botPermissions) {
 				if (!bot.permissions.has(permission)) {
 					return interaction.reply({
-						content: "I don't have enough permissions.",
+						embeds: [infoMessage("I don't have enough permissions.")],
 						ephemeral: true,
 					});
 				}
@@ -64,7 +65,7 @@ async function slashInteraction(interaction, client) {
 	} catch (error) {
 		log(`\x1b[31m[Error] \x1b[32mAn error occurred while handling Slash Command:\n\x1b[0m${error}`);
 		interaction.reply({
-			content: 'An error occurred while handling the Slash Command.',
+			embeds: [unknowenError("An error occurred while handling the Slash Command.")],
 			ephemeral: true,
 		});
 	}
@@ -81,14 +82,14 @@ async function buttonInteraction(interaction, client) {
 
 		if (buttonHandler.devOnly && !config.DEVS.includes(interaction.member.id)) {
 			return interaction.reply({
-				content: 'Only developers are allowed to press this button.',
+				embeds: [infoMessage("Only developers are allowed to press this button.")],
 				ephemeral: true,
 			});
 		}
 
 		if (buttonHandler.testOnly && interaction.guild.id !== config.TEST_SERVER) {
 			return interaction.reply({
-				content: 'This button cannot be pressed here.',
+				embeds: [infoMessage("This button cannot be pressed here.")],
 				ephemeral: true,
 			});
 		}
@@ -97,7 +98,7 @@ async function buttonInteraction(interaction, client) {
 			for (const permission of buttonHandler.permissionsRequired) {
 				if (!interaction.member.permissions.has(permission)) {
 					return interaction.reply({
-						content: 'Not enough permissions.',
+						embeds: [infoMessage("You dont have permissions.")],
 						ephemeral: true,
 					});
 				}
@@ -109,7 +110,7 @@ async function buttonInteraction(interaction, client) {
 			for (const permission of buttonHandler.botPermissions) {
 				if (!bot.permissions.has(permission)) {
 					return interaction.reply({
-						content: "I don't have enough permissions.",
+						embeds: [infoMessage("I don't have enough permissions.")],
 						ephemeral: true,
 					});
 				}
@@ -120,7 +121,7 @@ async function buttonInteraction(interaction, client) {
 	} catch (error) {
 		log(`\x1b[31m[Error] \x1b[32mAn error occurred while handling button:\n\x1b[0m${error}`);
 		interaction.reply({
-			content: 'An error occurred while handling the button interaction.',
+			embeds: [unknowenError("An error occurred while handling the button interaction.")],
 			ephemeral: true,
 		});
 	}
@@ -137,14 +138,14 @@ async function selectMenuInteraction(interaction, client) {
 
 		if (selectMenuHandler.devOnly && !config.DEVS.includes(interaction.member.id)) {
 			return interaction.reply({
-				content: 'Only developers are allowed to select this option.',
+				embeds: [infoMessage("Only developers are allowed to select this option.")],
 				ephemeral: true,
 			});
 		}
 
 		if (selectMenuHandler.testOnly && interaction.guild.id !== config.TEST_SERVER) {
 			return interaction.reply({
-				content: 'This select menu cannot be used here.',
+				embeds: [infoMessage("This select menu cannot be used here.")],
 				ephemeral: true,
 			});
 		}
@@ -153,7 +154,7 @@ async function selectMenuInteraction(interaction, client) {
 			for (const permission of selectMenuHandler.permissionsRequired) {
 				if (!interaction.member.permissions.has(permission)) {
 					return interaction.reply({
-						content: 'Not enough permissions.',
+						embeds: [infoMessage("You dont have permissions.")],
 						ephemeral: true,
 					});
 				}
@@ -165,7 +166,7 @@ async function selectMenuInteraction(interaction, client) {
 			for (const permission of selectMenuHandler.botPermissions) {
 				if (!bot.permissions.has(permission)) {
 					return interaction.reply({
-						content: "I don't have enough permissions.",
+						embeds: [infoMessage("I don't have enough permissions.")],
 						ephemeral: true,
 					});
 				}
@@ -176,7 +177,7 @@ async function selectMenuInteraction(interaction, client) {
 	} catch (error) {
 		log(`\x1b[31m[Error] \x1b[32mAn error occurred while handling select menu:\n\x1b[0m${error}`);
 		interaction.reply({
-			content: 'An error occurred while handling the select menu interaction.',
+			embeds: [unknowenError("An error occurred while handling the select menu interaction.")],
 			ephemeral: true,
 		});
 	}
@@ -193,14 +194,14 @@ async function contextMenuInteraction(interaction, client) {
 
 		if (contextMenuHandler.devOnly && !config.DEVS.includes(interaction.member.id)) {
 			return interaction.reply({
-				content: 'Only developers are allowed to use this context menu.',
+				embeds: [infoMessage("Only developers are allowed to use this context menu.")],
 				ephemeral: true,
 			});
 		}
 
 		if (contextMenuHandler.testOnly && interaction.guild.id !== config.TEST_SERVER) {
 			return interaction.reply({
-				content: 'This context menu cannot be used here.',
+				embeds: [infoMessage("This context menu cannot be used here.")],
 				ephemeral: true,
 			});
 		}
@@ -209,7 +210,7 @@ async function contextMenuInteraction(interaction, client) {
 			for (const permission of contextMenuHandler.permissionsRequired) {
 				if (!interaction.member.permissions.has(permission)) {
 					return interaction.reply({
-						content: 'Not enough permissions.',
+						embeds: [infoMessage("You dont have permissions.")],
 						ephemeral: true,
 					});
 				}
@@ -221,7 +222,7 @@ async function contextMenuInteraction(interaction, client) {
 			for (const permission of contextMenuHandler.botPermissions) {
 				if (!bot.permissions.has(permission)) {
 					return interaction.reply({
-						content: "I don't have enough permissions.",
+						embeds: [infoMessage("I don't have enough permissions.")],
 						ephemeral: true,
 					});
 				}
@@ -232,7 +233,7 @@ async function contextMenuInteraction(interaction, client) {
 	} catch (error) {
 		log(`\x1b[31m[Error] \x1b[32mAn error occurred while handling user context menu:\n\x1b[0m${error}`);
 		interaction.reply({
-			content: 'An error occurred while handling the user context menu interaction.',
+			embeds: [unknowenError("An error occurred while handling the user context menu interaction.")],
 			ephemeral: true,
 		});
 	}
