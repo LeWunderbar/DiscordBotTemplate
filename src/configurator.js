@@ -1,11 +1,14 @@
-const development = true;
-
-const config = development
-	? require('./../configDev.json')
-	: require('./../config.json');
+const development = process.env.NODE_ENV !== 'production';
+const configPath = development ? './../configDev.json' : './../config.json';
+const config = require(configPath);
 
 require('dotenv').config({
-  	path: development ? '.envDev' : '.env'
+  path: development ? '.envDev' : '.env'
 });
 
-module.exports = { config, development }
+const normalizedConfig = {
+  ...config,
+  DEVS: config.DEVS || config.devs || [],
+};
+
+module.exports = { config: normalizedConfig, development };

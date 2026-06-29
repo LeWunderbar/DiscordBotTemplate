@@ -1,13 +1,6 @@
-//////////////////////////
-// Imports of Index.js //
-/////////////////////////
-
 const eventHandler = require('./handlers/eventHandler');
-const log = require("./utils/log")
-
-////////////
-// Launch //
-////////////
+const { loginPromise } = require('./handlers/clientHandler');
+const log = require('./utils/log');
 
 console.clear();
 console.log(`
@@ -16,14 +9,17 @@ console.log(`
 	 ╚██╗    ██████╔╝ ╚████╔╝     ██╔████╔██║ █████╔╝ █████╔╝
 	 ██╔╝    ██╔══██╗  ╚██╔╝      ██║╚██╔╝██║██╔═══╝  ╚═══██╗
 	██╔╝     ██████╔╝   ██║       ██║ ╚═╝ ██║███████╗██████╔╝
-	╚═╝      ╚═════╝    ╚═╝       ╚═╝     ╚═╝╚══════╝╚═════╝                                                
+	╚═╝      ╚═════╝    ╚═╝       ╚═╝     ╚═╝╚══════╝╚═════╝
 `);
-log(`\x1b[38;2;249;65;68m[Launcher] \x1b[32mStarting Bot ...`);
+log('\x1b[38;2;249;65;68m[Launcher] \x1b[32mStarting Bot ...');
 
 (async () => {
-	try {
-		eventHandler();
-	} catch (error) {
-		log(`\x1b[31m[Error] \x1b[32mAn error occurred in launch.js:\n\x1b[0m${err}`)
-	}
+  try {
+    eventHandler();
+    if (loginPromise) {
+      await loginPromise;
+    }
+  } catch (error) {
+    log(`\x1b[31m[Error] \x1b[32mAn error occurred in launch.js:\n\x1b[0m${error.stack || error}`);
+  }
 })();

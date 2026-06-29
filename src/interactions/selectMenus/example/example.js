@@ -1,29 +1,22 @@
-const { PermissionFlagsBits } = require("discord.js");
+const { infoMessage, unknowenError } = require('./../../../templates/embeds');
+const log = require('./../../../utils/log');
 
 module.exports = {
-	selectMenuId: 'example',
-//  devOnly: [boolean],
-//  testOnly: [boolean],
-//  permissionsRequired [Array],
-//  botPermissions [Array],
-
-	callback: async (client, interaction) => {
-		try {
-			// interaction.values -- Always array of selected item(s), but always array
-
-			// Reply with *FIRST* item in array
-			interaction.reply({
-				content: `You have selected ${interaction.values[0]}`,
-				ephemeral: true
-			});
-		} catch (err) {
-			log(`\x1b[31m[Error] \x1b[32mAn error occurred while handling selectMenu:\n\x1b[0m${err}`);
-			interaction.reply({
-				embeds: [unknowenError("selectMenu-example-unknowen")],
-				ephemeral: true
-			});
-		}
-	},
+  selectMenuId: 'example',
+  callback: async (client, interaction) => {
+    try {
+      await interaction.reply({
+        embeds: [infoMessage(`You have selected ${interaction.values[0]}`)],
+        ephemeral: true,
+      });
+    } catch (err) {
+      log(`\x1b[31m[Error] \x1b[32mAn error occurred while handling selectMenu:\n\x1b[0m${err}`);
+      await interaction.reply({
+        embeds: [unknowenError('selectMenu-example-unknowen')],
+        ephemeral: true,
+      });
+    }
+  },
 };
 
 /* Making SelectMenus:

@@ -1,17 +1,26 @@
-const { Client, IntentsBitField } = require('discord.js');
-const { development } = require("./../configurator");
+const { Client, GatewayIntentBits } = require('discord.js');
+const { development } = require('./../configurator');
 require('dotenv').config({
   path: development ? '.envDev' : '.env'
 });
 
 const client = new Client({
-	intents: [
-		IntentsBitField.Flags.Guilds,
-		IntentsBitField.Flags.GuildMembers,
-		IntentsBitField.Flags.GuildMessages,
-		IntentsBitField.Flags.MessageContent,
-	],
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
 });
 
-client.login(process.env.TOKEN);
-module.exports = { client };
+let loginPromise = null;
+
+if (process.env.TOKEN) {
+  loginPromise = client.login(process.env.TOKEN).catch((error) => {
+    console.error('[Client] Failed to log in:', error.message);
+  });
+} else {
+  console.warn('[Client] No TOKEN provided. Set TOKEN in .env or .envDev to connect.');
+}
+
+module.exports = { client, loginPromise };

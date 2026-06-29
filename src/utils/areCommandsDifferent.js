@@ -1,54 +1,43 @@
+const normalizeCommand = (command) => {
+  if (command?.toJSON) {
+    return command.toJSON();
+  }
+
+  if (command?.data?.toJSON) {
+    return command.data.toJSON();
+  }
+
+  return {
+    name: command?.name || '',
+    description: command?.description || '',
+    options: command?.options || [],
+    type: command?.type,
+  };
+};
+
 module.exports = (existingCommand, localCommand) => {
-	const areChoicesDifferent = (existingChoices, localChoices) => {
-		for (const localChoice of localChoices) {
-				const existingChoice = existingChoices?.find(
-				(choice) => choice.name === localChoice.name
-			);
-	
-			if (!existingChoice) {
-				return true;
-			}
-	
-			if (localChoice.value !== existingChoice.value) {
-				return true;
-			}
-		}
-	  return false;
-	};
-  
-	const areOptionsDifferent = (existingOptions, localOptions) => {
-		for (const localOption of localOptions) {
-				const existingOption = existingOptions?.find(
-				(option) => option.name === localOption.name
-			);
-	
-			if (!existingOption) {
-				return true;
-			}
-	
-			if (
-				localOption.description !== existingOption.description ||
-				localOption.type !== existingOption.type ||
-				(localOption.required || false) !== existingOption.required ||
-				(localOption.choices?.length || 0) !==
-					(existingOption.choices?.length || 0) ||
-				areChoicesDifferent(
-					localOption.choices || [],
-					existingOption.choices || []
-				)
-			) {
-			return true;
-			}
-		}
-		return false;
-	};
-  
-	if (
-		existingCommand.description !== localCommand.description ||
-		existingCommand.options?.length !== (localCommand.options?.length || 0) ||
-		areOptionsDifferent(existingCommand.options, localCommand.options || [])
-	) {
-	  	return true;
-	}
-	return false;
+  const existing = normalizeCommand(existingCommand);
+  const local = normalizeCommand(localCommand);
+
+  const existingOptions = existing.options || [];
+  const localOptions = local.options || [];
+
+  const sameOptions =
+    existingOptions.length === localOptions.length &&
+    existingOptions.every((option, index) => {
+      const localOption = localOptions[index];
+      return (
+        option?.name === localOption?.name &&
+        option?.description === localOption?.description &&
+        option?.type === localOption?.type &&
+        option?.required === localOption?.required
+      );
+    });
+
+  return (
+    existing.name !== local.name ||
+    existing.description !== local.description ||
+    existing.type !== local.type ||
+    !sameOptions
+  );
 };

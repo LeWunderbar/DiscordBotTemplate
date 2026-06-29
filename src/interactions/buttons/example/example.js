@@ -1,24 +1,20 @@
-const { PermissionFlagsBits } = require("discord.js");
+const { infoMessage, unknowenError } = require('./../../../templates/embeds');
+const log = require('./../../../utils/log');
 
 module.exports = {
-	buttonId: 'example',
-//  devOnly: [boolean],
-//  testOnly: [boolean],
-//  permissionsRequired [Array],
-//  botPermissions [Array],
-
-	callback: async (client, interaction) => {
-		try {
-			interaction.reply({
-				content: "Button got pressed!",
-				ephemeral: true
-			});
-		} catch (err) {
-			log(`\x1b[31m[Error] \x1b[32mAn error occurred while handling button:\n\x1b[0m${err}`);
-			interaction.reply({
-				embeds: [unknowenError("button-example-unknowen")],
-				ephemeral: true
-			});
-		}
-	},
+  buttonId: 'example',
+  callback: async (client, interaction) => {
+    try {
+      await interaction.reply({
+        embeds: [infoMessage('Button got pressed!')],
+        ephemeral: true,
+      });
+    } catch (err) {
+      log(`\x1b[31m[Error] \x1b[32mAn error occurred while handling button:\n\x1b[0m${err}`);
+      await interaction.reply({
+        embeds: [unknowenError('button-example-unknowen')],
+        ephemeral: true,
+      });
+    }
+  },
 };
